@@ -127,7 +127,7 @@ body.dark .recipe-modal {
   background: #c62828;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
   .recipe-modal {
     grid-template-columns: 1fr;
     width: calc(100% - 1rem);
@@ -144,12 +144,6 @@ body.dark .recipe-modal {
     padding: 1.25rem;
   }
 
-  .recipe-modal-content ul {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 1000px) and (min-width: 701px) {
   .recipe-modal-content ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
