@@ -7,6 +7,8 @@ import RecipeModel from '../Components/RecipeModel.jsx';
 import SearchBar from '../Components/SearchBar.jsx';
 
 const EXPLORE_BATCH_SIZE = 6;
+const TABLET_BREAKPOINT = 1024;
+const TABLET_COLUMN_COUNT = 2;
 
 const getInitialVisibleCount = () => {
   const minCardWidth = 220;
@@ -14,7 +16,8 @@ const getInitialVisibleCount = () => {
   const gridPadding = 48;
   const gridWidth = document.documentElement.clientWidth;
   const columns = Math.max(1, Math.floor((gridWidth - gridPadding + gridGap) / (minCardWidth + gridGap)));
-  return Math.min(columns, EXPLORE_BATCH_SIZE);
+  const maxColumns = gridWidth <= TABLET_BREAKPOINT ? TABLET_COLUMN_COUNT : EXPLORE_BATCH_SIZE;
+  return Math.min(columns, maxColumns);
 };
 
 const Home = () => {
