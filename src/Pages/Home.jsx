@@ -6,17 +6,20 @@ import Loader from "../Components/Loader.jsx";
 import RecipeModel from '../Components/RecipeModel.jsx';
 import SearchBar from '../Components/SearchBar.jsx';
 
+const MAX_GRID_COLUMNS = 6;
+
 const getGridColumnCount = (grid) => {
   if (grid) {
     const columns = window.getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length;
-    if (columns > 0) return columns;
+    if (columns > 0) return Math.min(columns, MAX_GRID_COLUMNS);
   }
 
   const minCardWidth = 220;
   const gridGap = 24;
   const gridPadding = 48;
   const gridWidth = document.documentElement.clientWidth;
-  return Math.max(1, Math.floor((gridWidth - gridPadding + gridGap) / (minCardWidth + gridGap)));
+  const columns = Math.max(1, Math.floor((gridWidth - gridPadding + gridGap) / (minCardWidth + gridGap)));
+  return Math.min(columns, MAX_GRID_COLUMNS);
 };
 
 const Home = () => {
@@ -65,7 +68,7 @@ const Home = () => {
       </div>
       <div className='section'>
         <h2>Explore All Recipes</h2>
-        <div className='recipe-grid' ref={exploreGridRef}>
+        <div className='recipe-grid explore-grid' ref={exploreGridRef}>
           {exploreAll.slice(0,visibleCount).map((r)=>(
              <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
             ))}
