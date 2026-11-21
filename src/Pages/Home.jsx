@@ -1,15 +1,30 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect,useRef} from 'react';
 import { fetchRecipes} from "../Utils/Api";
 import RecipeCard from "../Components/Recipecard";
 import "../Pages/Home.css";
 import Loader from "../Components/Loader.jsx";
 import RecipeModel from '../Components/RecipeModel.jsx';
 import SearchBar from '../Components/SearchBar.jsx';
+
+const getGridColumnCount = (grid) => {
+  if (grid) {
+    const columns = window.getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length;
+    if (columns > 0) return columns;
+  }
+
+  const minCardWidth = 220;
+  const gridGap = 24;
+  const gridPadding = 48;
+  const gridWidth = document.documentElement.clientWidth;
+  return Math.max(1, Math.floor((gridWidth - gridPadding + gridGap) / (minCardWidth + gridGap)));
+};
+
 const Home = () => {
     const [chickenRecipes,setChickenRecipes] = useState([]);
     const [soupRecipes,setSoupRecipe]= useState([]);
     const [exploreAll,setExploreAll]=useState([]);
-    const [visibleCount,setVisibleCount] =useState(15);
+    const [visibleCount,setVisibleCount] =useState(()=>getGridColumnCount(null));
+    const exploreGridRef = useRef(null);
     const [loading,setLoading] = useState(true);
     const [selectedRecipe,setSelectedRecipe] = useState(null);
     useEffect(()=>{
@@ -26,7 +41,7 @@ const Home = () => {
      fetchData();
     },[]);
      const showMore = ()=>{
-      setVisibleCount((prev)=>prev+5);
+      setVisibleCount((prev)=>Math.min(prev+getGridColumnCount(exploreGridRef.current),exploreAll.length));
      };
      if(loading) return <Loader/>;
   return (
@@ -50,7 +65,7 @@ const Home = () => {
       </div>
       <div className='section'>
         <h2>Explore All Recipes</h2>
-        <div className='recipe-grid'>
+        <div className='recipe-grid' ref={exploreGridRef}>
           {exploreAll.slice(0,visibleCount).map((r)=>(
              <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
             ))}
