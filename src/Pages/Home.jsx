@@ -100,7 +100,7 @@ const Home = () => {
        ) : searchResults.length === 0 ? (
         <p className="search-message" role="status">No recipes found for "{searchQuery}".</p>
        ) : (
-        <div className='recipe-grid'>
+        <div className='recipe-grid recipe-grid--six'>
          {searchResults.map((recipe)=>(
           <RecipeCard key={recipe.idMeal} recipe={recipe} selected={setSelectedRecipe}/>
          ))}
@@ -127,7 +127,7 @@ const Home = () => {
       </div>
       <div className='section'>
         <h2>Explore All Recipes</h2>
-        <div className='recipe-grid explore-grid' ref={exploreGridRef}>
+        <div className='recipe-grid recipe-grid--six' ref={exploreGridRef}>
           {exploreAll.slice(0,visibleCount).map((r)=>(
              <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
             ))}

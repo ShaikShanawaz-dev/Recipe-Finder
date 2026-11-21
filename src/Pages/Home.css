@@ -10,7 +10,7 @@
     gap: 1.5rem;
     padding: 1.5rem;
 }
-.explore-grid{
+.recipe-grid--six{
     grid-template-columns: repeat(auto-fill,minmax(max(220px,calc((100% - 7.5rem) / 6)),1fr));
 }
 .load-more{
