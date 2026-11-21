@@ -136,8 +136,13 @@ body.dark .recipe-modal {
 
   .recipe-modal-image {
     position: relative;
-    height: 220px;
-    min-height: 220px;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .recipe-modal-image > img {
+    object-fit: contain;
   }
 
   .recipe-modal-content {
