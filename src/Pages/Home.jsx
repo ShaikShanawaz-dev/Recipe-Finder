@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useRef} from 'react';
+import React,{useState,useEffect} from 'react';
 import { fetchRecipes} from "../Utils/Api";
 import RecipeCard from "../Components/Recipecard";
 import "../Pages/Home.css";
@@ -6,28 +6,22 @@ import Loader from "../Components/Loader.jsx";
 import RecipeModel from '../Components/RecipeModel.jsx';
 import SearchBar from '../Components/SearchBar.jsx';
 
-const MAX_GRID_COLUMNS = 6;
+const EXPLORE_BATCH_SIZE = 6;
 
-const getGridColumnCount = (grid) => {
-  if (grid) {
-    const columns = window.getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length;
-    if (columns > 0) return Math.min(columns, MAX_GRID_COLUMNS);
-  }
-
+const getInitialVisibleCount = () => {
   const minCardWidth = 220;
   const gridGap = 24;
   const gridPadding = 48;
   const gridWidth = document.documentElement.clientWidth;
   const columns = Math.max(1, Math.floor((gridWidth - gridPadding + gridGap) / (minCardWidth + gridGap)));
-  return Math.min(columns, MAX_GRID_COLUMNS);
+  return Math.min(columns, EXPLORE_BATCH_SIZE);
 };
 
 const Home = () => {
     const [chickenRecipes,setChickenRecipes] = useState([]);
     const [soupRecipes,setSoupRecipe]= useState([]);
     const [exploreAll,setExploreAll]=useState([]);
-    const [visibleCount,setVisibleCount] =useState(()=>getGridColumnCount(null));
-    const exploreGridRef = useRef(null);
+    const [visibleCount,setVisibleCount] =useState(getInitialVisibleCount);
     const [loading,setLoading] = useState(true);
     const [selectedRecipe,setSelectedRecipe] = useState(null);
     const [loadError,setLoadError] = useState("");
@@ -83,7 +77,7 @@ const Home = () => {
       }
      };
      const showMore = ()=>{
-      setVisibleCount((prev)=>Math.min(prev+getGridColumnCount(exploreGridRef.current),exploreAll.length));
+      setVisibleCount((prev)=>Math.min(prev+EXPLORE_BATCH_SIZE,exploreAll.length));
      };
      if(loading) return <Loader/>;
   return (
@@ -127,7 +121,7 @@ const Home = () => {
       </div>
       <div className='section'>
         <h2>Explore All Recipes</h2>
-        <div className='recipe-grid recipe-grid--six' ref={exploreGridRef}>
+        <div className='recipe-grid recipe-grid--six'>
           {exploreAll.slice(0,visibleCount).map((r)=>(
              <RecipeCard key={r.idMeal} recipe={r} selected={setSelectedRecipe}/>
             ))}
