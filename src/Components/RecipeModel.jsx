@@ -2,14 +2,21 @@ import React, { useEffect } from 'react';
 import './styles/RecipeModel.css';
 
 const recipeVideoOverrides = {
+  53155: 'https://www.youtube.com/watch?v=8RLIulp8280',
   53163: 'https://www.youtube.com/watch?v=0v0o2FV7No4',
   53183: 'https://www.youtube.com/watch?v=xASZmv8k5tM',
   53244: 'https://www.youtube.com/watch?v=NyD9Jl-vBkQ',
   53358: 'https://www.youtube.com/watch?v=T89vnAwNHw8',
+  53359: 'https://www.youtube.com/watch?v=vssEtJ0LJ8c',
   53463: 'https://www.youtube.com/watch?v=yhyc8L76tu4',
+  53486: 'https://www.youtube.com/watch?v=WpIyfHnQ31g',
+  53487: 'https://www.youtube.com/watch?v=ZFinr6TZIto',
+  53530: 'https://www.youtube.com/watch?v=wFjGKGDWsQ4',
+  53532: 'https://www.youtube.com/watch?v=N6Jgv8NeBsw',
   53541: 'https://www.youtube.com/watch?v=z7fuWkdKvdw',
   53546: 'https://www.youtube.com/watch?v=AWdwfeTBN8U',
   53553: 'https://www.youtube.com/watch?v=lTwWIXAMk6Y',
+  53565: 'https://www.youtube.com/watch?v=zkegY5JeTW4',
 };
 
 const RecipeModel = ({ recipe, onClose }) => {
@@ -77,6 +84,16 @@ const RecipeModel = ({ recipe, onClose }) => {
               <span><strong>Area:</strong> {recipe.strArea}</span>
             )}
           </p>
+          {videoUrl && (
+            <a
+              className="recipe-video-button"
+              href={videoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Watch recipe video on YouTube
+            </a>
+          )}
           <h3>Ingredients</h3>
           <ul>
             {ingredients.map((ingredient) => (
@@ -89,16 +106,6 @@ const RecipeModel = ({ recipe, onClose }) => {
               <li key={step}>{step}</li>
             ))}
           </ol>
-          {videoUrl && (
-            <a
-              className="recipe-video-button"
-              href={videoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Watch on Youtube
-            </a>
-          )}
         </div>
       </div>
     </div>
